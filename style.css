@@ -1,12 +1,14 @@
 body {
+    font-family: 'Montserrat', sans-serif;
     background-color: azure;
 }
 
-.form {
+.centrera {
     display: flex;
     justify-content: center;
 }
 
-.bakgrund {
-    background-color: darkcyan;
+.form {
+    margin: 10px;
+    border-radius: 3%;
 }
