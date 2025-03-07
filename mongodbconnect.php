@@ -18,6 +18,9 @@ foreach ($documents as $doc) {
     echo "Datetime: " . $doc['datetime'] . "<br>";
 }
 
+echo "Datetime: " . $doc['datetime']->toDateTime()->format('Y-m-d H:i:s') . "<br>";
+
+
 ?>
 
 <!DOCTYPE html>
