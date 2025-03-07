@@ -55,9 +55,7 @@ foreach ($allData as $doc) {
 
     <div>
         <ul>
-            <?php foreach ($searchResult as $doc): ?>
-                <li><?php echo "id: " . $doc['_id'] . " - datetime: " . $doc['datetime']; ?></li>
-            <?php endforeach; ?>
+
         </ul>
     </div>
 
