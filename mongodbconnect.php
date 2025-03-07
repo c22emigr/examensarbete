@@ -11,7 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $searchResult = $collection->find(['name' => $name]);
 }
 print_r($client->listDatabases());
-$searchResult = iterator_to_array($collection->find(['name' => $name]));
+
+$allData = $collection->find();
+foreach ($allData as $doc) {
+    echo "<p>" . json_encode($doc) . "</p>";
+}
 
 ?>
 
@@ -51,7 +55,9 @@ $searchResult = iterator_to_array($collection->find(['name' => $name]));
 
     <div>
         <ul>
-            <?php $searchResult = iterator_to_array($collection->find(['name' => $name])); ?>
+            <?php foreach ($searchResult as $doc): ?>
+                <li><?php echo "id: " . $doc['_id'] . " - datetime: " . $doc['datetime']; ?></li>
+            <?php endforeach; ?>
         </ul>
     </div>
 
