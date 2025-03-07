@@ -51,9 +51,7 @@ $searchResult = iterator_to_array($collection->find(['name' => $name]));
 
     <div>
         <ul>
-            <?php foreach ($searchResult as $doc): ?>
-                <li><?php echo "id: " . $doc['_id'] . " - datetime: " . $doc['datetime']; ?></li>
-            <?php endforeach; ?>
+            <?php $searchResult = iterator_to_array($collection->find(['name' => $name])); ?>
         </ul>
     </div>
 
