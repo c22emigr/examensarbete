@@ -7,8 +7,8 @@ $collection = $client->mydatabase->users;
 $searchResult = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $datetime = $_POST['datetime'];
-    $searchResult = $collection->find(['datetime' => $datetime]);
+    $name = $_POST['name'];
+    $searchResult = $collection->find(['name' => $name]);
 }
 print_r($client->listDatabases());
 
@@ -46,7 +46,7 @@ foreach ($allData as $doc) {
                 <h2>Browse stocks</h2>
 
                 <div class="form">
-                    <input type="text" datetime="datetime" id="" placeholder="Stock Search">
+                    <input type="text" name="name" id="" placeholder="Stock Search">
                     <button type="submit" class="" id="" onclick="">Search</button>
                 </div>
             </div>
@@ -55,6 +55,9 @@ foreach ($allData as $doc) {
 
     <div>
         <ul>
+            <?php
+                $searchResult = $collection->find(['datetime' => ['$regex' => $name, '$options' => 'i']]);
+            ?>
             <?php foreach ($searchResult as $doc): ?>
                 <li><?php echo "id: " . $doc['_id'] . " - datetime: " . $doc['datetime']; ?></li>
             <?php endforeach; ?>
