@@ -12,9 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 print_r($client->listDatabases());
 
-$allData = $collection->find();
-foreach ($allData as $doc) {
-    echo "<p>" . json_encode($doc) . "</p>";
+$documents = $collection->find();
+
+foreach ($documents as $doc) {
+    echo "Datetime: " . $doc['datetime'] . "<br>";
 }
 
 ?>
@@ -55,9 +56,6 @@ foreach ($allData as $doc) {
 
     <div>
         <ul>
-            <?php
-                $searchResult = $collection->find(['datetime' => ['$regex' => $name, '$options' => 'i']]);
-            ?>
             <?php foreach ($searchResult as $doc): ?>
                 <li><?php echo "id: " . $doc['_id'] . " - datetime: " . $doc['datetime']; ?></li>
             <?php endforeach; ?>
