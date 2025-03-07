@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div>
         <ul>
             <?php foreach ($searchResult as $doc): ?>
-                <li><?php echo "Namn: " . $doc['name'] . " - Email: " . $doc['email']; ?></li>
+                <li><?php echo "Namn: " . $doc['_id'] . " - Email: " . $doc['datetime']; ?></li>
             <?php endforeach; ?>
         </ul>
     </div>
