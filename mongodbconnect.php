@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $searchResult = $collection->find(['name' => $name]);
 }
-$collection = $client->mydatabase->users;
+print_r($client->listDatabases());
 
 ?>
 
