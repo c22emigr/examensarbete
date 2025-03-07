@@ -10,6 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $searchResult = $collection->find(['name' => $name]);
 }
+$collection = $client->mydatabase->users;
+
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div>
         <ul>
             <?php foreach ($searchResult as $doc): ?>
-                <li><?php echo "Namn: " . $doc['_id'] . " - Email: " . $doc['datetime']; ?></li>
+                <li><?php echo "id: " . $doc['_id'] . " - datetime: " . $doc['datetime']; ?></li>
             <?php endforeach; ?>
         </ul>
     </div>
