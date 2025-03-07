@@ -36,11 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div>
         <form method="POST" class="centrera">
             <div>
-                <h2>Aktiesök</h2>
+                <h2>Browse stocks</h2>
 
                 <div class="form">
-                    <input type="text" name="" id="" placeholder="Aktiesök">
-                    <button type="submit" class="" id="" onclick=""></button>
+                    <input type="text" name="name" id="" placeholder="Stock Search">
+                    <button type="submit" class="" id="" onclick="">Search</button>
                 </div>
             </div>
         </form>
