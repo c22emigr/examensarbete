@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $searchResult = $collection->find(['name' => $name]);
 }
 print_r($client->listDatabases());
+$searchResult = iterator_to_array($collection->find(['name' => $name]));
 
 ?>
 
