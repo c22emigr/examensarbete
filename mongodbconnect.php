@@ -9,7 +9,7 @@ $documents = []; // Tom array som sökning insertas i
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     $search = $_POST['name'];
 
-    // Sökning. regex och $options för att göra case insensitive
+    // Sökning. regex och $options för att göra case insensitive och inte exakt
     $documents = $collection->find([
         'stock_name' => ['$regex' => $search, '$options' => 'i']
     ]);
