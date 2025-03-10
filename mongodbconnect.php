@@ -46,7 +46,7 @@ $documents = $collection->find();
         <table>
         <thead>
             <tr class="pad">
-                <th>ID</th>
+                <th>Stock name</th>
                 <th>Datetime</th>
                 <th>Open</th>
                 <th>High</th>
@@ -57,7 +57,7 @@ $documents = $collection->find();
         </thead>
                 <?php foreach ($documents as $doc): ?>
                     <tr class="pad">
-                        <td><?php echo $doc['_id']; ?></td>
+                        <td><?php echo $doc['stock_name']; ?></td>
                         <td><?php echo $doc['datetime']->toDateTime()->format('Y-m-d H:i:s'); ?></td>
                         <td><?php echo $doc['open']; ?></td>
                         <td><?php echo $doc['high']; ?></td>
