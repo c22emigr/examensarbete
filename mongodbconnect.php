@@ -2,24 +2,9 @@
 require '../vendor/autoload.php';
 
 $client = new MongoDB\Client("mongodb://localhost:27017");
-$collection = $client->mydatabase->users;
-
-$searchResult = [];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $searchResult = $collection->find(['name' => $name]);
-}
-print_r($client->listDatabases());
+$collection = $client->examensarbete->examensarbete;
 
 $documents = $collection->find();
-
-foreach ($documents as $doc) {
-    echo "Datetime: " . $doc['datetime'] . "<br>";
-}
-
-echo "Datetime: " . $doc['datetime']->toDateTime()->format('Y-m-d H:i:s') . "<br>";
-
 
 ?>
 
@@ -58,11 +43,21 @@ echo "Datetime: " . $doc['datetime']->toDateTime()->format('Y-m-d H:i:s') . "<br
     </div>
 
     <div>
-        <ul>
-            <?php foreach ($searchResult as $doc): ?>
-                <li><?php echo "id: " . $doc['_id'] . " - datetime: " . $doc['datetime']; ?></li>
-            <?php endforeach; ?>
-        </ul>
+        <table>
+            <ul>
+                <?php foreach ($documents as $doc): ?>
+                    <tr>
+                        <td><?php echo $doc['_id']; ?></td>
+                        <td><?php echo $doc['datetime']; ?></td>
+                        <td><?php echo $doc['open']; ?></td>
+                        <td><?php echo $doc['high']; ?></td>
+                        <td><?php echo $doc['low']; ?></td>
+                        <td><?php echo $doc['close']; ?></td>
+                        <td><?php echo $doc['volume']; ?></td>
+                    </tr>                
+                <?php endforeach; ?>
+            </ul>
+        </table>
     </div>
 
 </body>
