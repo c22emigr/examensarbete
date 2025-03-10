@@ -44,7 +44,17 @@ $documents = $collection->find();
 
     <div>
         <table>
-            <ul>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Datetime</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
                 <?php foreach ($documents as $doc): ?>
                     <tr>
                         <td><?php echo $doc['_id']; ?></td>
@@ -56,7 +66,6 @@ $documents = $collection->find();
                         <td><?php echo $doc['volume']; ?></td>
                     </tr>                
                 <?php endforeach; ?>
-            </ul>
         </table>
     </div>
 
