@@ -2,9 +2,18 @@
 require '../vendor/autoload.php';
 
 $client = new MongoDB\Client("mongodb://localhost:27017");
-$collection = $client->examensarbete->examensarbete;
+$collection = $client->examensarbete->aktier;
 
-$documents = $collection->find();
+$documents = []; // Tom array som sökning insertas i
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
+    $search = $_POST['name'];
+
+    // Sökning. regex och $options för att göra case insensitive
+    $documents = $collection->find([
+        'stock_name' => ['$regex' => $search, '$options' => 'i']
+    ]);
+}
 
 ?>
 
@@ -58,7 +67,7 @@ $documents = $collection->find();
                 <?php foreach ($documents as $doc): ?>
                     <tr class="pad">
                         <td><?php echo $doc['stock_name']; ?></td>
-                        <td><?php echo $doc['datetime']->toDateTime()->format('Y-m-d H:i:s'); ?></td>
+                        <td><?php echo $doc['datetime']; ?></td>
                         <td><?php echo $doc['open']; ?></td>
                         <td><?php echo $doc['high']; ?></td>
                         <td><?php echo $doc['low']; ?></td>
