@@ -42,10 +42,10 @@ $documents = $collection->find();
         </form>
     </div>
 
-    <div>
+    <div class="form">
         <table>
         <thead>
-            <tr>
+            <tr class="pad">
                 <th>ID</th>
                 <th>Datetime</th>
                 <th>Open</th>
@@ -56,7 +56,7 @@ $documents = $collection->find();
             </tr>
         </thead>
                 <?php foreach ($documents as $doc): ?>
-                    <tr>
+                    <tr class="pad">
                         <td><?php echo $doc['_id']; ?></td>
                         <td><?php echo $doc['datetime']; ?></td>
                         <td><?php echo $doc['open']; ?></td>
