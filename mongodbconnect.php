@@ -42,7 +42,7 @@ $documents = $collection->find();
         </form>
     </div>
 
-    <div class="form">
+    <div class="centrera">
         <table>
         <thead>
             <tr class="pad">
@@ -58,7 +58,7 @@ $documents = $collection->find();
                 <?php foreach ($documents as $doc): ?>
                     <tr class="pad">
                         <td><?php echo $doc['_id']; ?></td>
-                        <td><?php echo $doc['datetime']; ?></td>
+                        <td><?php echo $doc['datetime']->toDateTime()->format('Y-m-d H:i:s'); ?></td>
                         <td><?php echo $doc['open']; ?></td>
                         <td><?php echo $doc['high']; ?></td>
                         <td><?php echo $doc['low']; ?></td>

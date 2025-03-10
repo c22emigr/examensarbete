@@ -19,5 +19,9 @@ html {
 
 .pad {
     padding: 10px;
-    
+
+}
+
+td {
+    margin: 20px;
 }
