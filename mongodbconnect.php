@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
                 <th>Low</th>
                 <th>Close</th>
                 <th>Volume</th>
+                <th>Value</th>
             </tr>
         </thead>
                 <?php foreach ($documents as $doc): ?>
