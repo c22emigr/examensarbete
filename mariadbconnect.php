@@ -6,11 +6,12 @@ $db_name = "examensarbete";
 $conn = new mysqli($servername, $username, $password, $db_name);
 if($conn->connect_error){
 die(" failed".$conn->connect_error);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     $search = $_POST['name'];
 
-    $mariadb = "SELECT * FROM aktier WHERE stock_name LIKE ?";
+    $stmt = $conn->prepare("SELECT * FROM aktier WHERE stock_name LIKE ?");
     $stmt->bind_param("s", $search);
     $stmt->execute();
 
@@ -66,17 +67,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
                 <th>Value</th>
             </tr>
         </thead>
-                <?php foreach ($documents as $doc): ?>
+            <?php if (isset($data)): ?>
+                <?php while ($row = $data->fetch_assoc()): ?>
                     <tr class="pad">
-                        <td><?php echo $doc['stock_name']; ?></td>
-                        <td><?php echo $doc['datetime']; ?></td>
-                        <td><?php echo $doc['open']; ?></td>
-                        <td><?php echo $doc['high']; ?></td>
-                        <td><?php echo $doc['low']; ?></td>
-                        <td><?php echo $doc['close']; ?></td>
-                        <td><?php echo $doc['volume']; ?></td>
+                        <td><?php echo $row['stock_name']; ?></td>
+                        <td><?php echo $row['datetime']; ?></td>
+                        <td><?php echo $row['open']; ?></td>
+                        <td><?php echo $row['high']; ?></td>
+                        <td><?php echo $row['low']; ?></td>
+                        <td><?php echo $row['close']; ?></td>
+                        <td><?php echo $row['volume']; ?></td>
                     </tr>                
-                <?php endforeach; ?>
+                <?php endwhile; ?>
+            <?php endif; ?>
         </table>
     </div>
 
