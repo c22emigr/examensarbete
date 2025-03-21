@@ -2,10 +2,19 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db_name = "database1";
+$db_name = "examensarbete";
 $conn = new mysqli($servername, $username, $password, $db_name);
 if($conn->connect_error){
-die("Connection failed".$conn->connect_error);
+die(" failed".$conn->connect_error);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
+    $search = $_POST['name'];
+
+    $mariadb = "SELECT * FROM aktier WHERE stock_name LIKE ?";
+    $stmt->bind_param("s", $search);
+    $stmt->execute();
+
+    $data = $stmt->get_result();
 }
 ?>
 
