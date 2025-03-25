@@ -9,7 +9,7 @@ die(" failed".$conn->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
-    $search = $_POST['name'];
+    $search = "%" . $_POST['name'] . "%"; // Wildcard search
 
     $stmt = $conn->prepare("SELECT * FROM aktier WHERE stock_name LIKE ?");
     $stmt->bind_param("s", $search);

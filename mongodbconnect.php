@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
                 <h2>Browse stocks</h2>
 
                 <div class="form">
-                    <input type="text" name="name" id="" placeholder="Stock Search">
+                    <input type="text" name="name" id="stocksearch" placeholder="Stock Search">
                     <button type="submit" class="" id="" onclick="">Search</button>
                 </div>
             </div>
