@@ -17,6 +17,8 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
     'use strict';
 
     let iterations = 10;
+    let localCounter = 0;
+    let check = 0;
 
     localStorage.removeItem("oldVal");
 
@@ -24,8 +26,22 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
         let counter = parseInt(localStorage.getItem("counter")) || 0;
         console.log(counter);
 
+        if (check === 1){
+            let measurement = performance.now(); // tiden mäts
+            let old = parseInt(localStorage.getItem("oldVal")) || 0;
+            localStorage.setItem("oldVal", measurement);
+            let delta = Math.round(measurement - old);
+            this.localStorage.setItem(check, 0);
+        }
+
+        if (counter === 10){
+            localCounter++;
+            localStorage.setItem("localCounter", localCounter); // Global counter sparas
+            localStorage.setItem("counter", 0); // Vanliga countern börjar om efter 10
+
+        }
+
         if(counter < iterations) {
-            console.log("banan");
             counter++;
             localStorage.setItem("counter", counter); // Counter-värde sparas till localstorage
 
@@ -41,6 +57,7 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
                     let form = document.getElementById("searchform");
                     let measurement = performance.now();
                     let old = parseInt(localStorage.getItem("oldVal")) || 0;
+                    localStorage.setItem(check, 1);
                     if (form) {
                         form.submit();
                         console.log(search);
@@ -48,10 +65,31 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
                         console.error('Search did not work');
                     }
 
-                }, 500); // Delay
+                }, ); // Delay
 
         }else{
             return;
+        }
+
+        if (localCounter === 1){
+             // Provade konvertera till blob för att få nedladdning att fungera
+             var blob = new Blob([str], { type: "text/csv;charset=utf-8;" });
+             var link = document.createElement("a");
+             var url = URL.createObjectURL(blob);
+ 
+             // Skapar länk för nedladdningen
+             link.setAttribute("href", url);
+             link.setAttribute("download", "measurement_aktiedata.csv");
+             document.body.appendChild(link);
+ 
+             // Laddar ner
+             link.click();
+ 
+             // Tar bort den osynliga länken efter nedladdning
+             document.body.removeChild(link);
+             URL.revokeObjectURL(url);
+
+             localStorage.setItem(localCounter, 0);
         }
     });
 })();

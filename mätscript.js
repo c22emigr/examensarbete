@@ -18,6 +18,7 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
     'use strict';
 
     let iterations = 10;
+    let localCounter = 1;
 
     localStorage.removeItem("oldVal");
 
