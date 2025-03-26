@@ -19,6 +19,7 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
     let iterations = 10;
     let localCounter = 0;
     let check = 0;
+    let str = localStorage.getItem("stockdata") || "";
 
     localStorage.removeItem("oldVal");
 
@@ -29,9 +30,10 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
         if (check === 1){
             let measurement = performance.now(); // tiden mäts
             let old = parseInt(localStorage.getItem("oldVal")) || 0;
-            localStorage.setItem("oldVal", measurement);
             let delta = Math.round(measurement - old);
-            this.localStorage.setItem(check, 0);
+            localStorage.setItem("oldVal", measurement);
+            check = 0;
+            localStorage.setItem("check", check);
         }
 
         if (counter === 10){
@@ -55,17 +57,21 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
 
                 setTimeout(function() {
                     let form = document.getElementById("searchform");
+                    check++;
+                    localStorage.setItem("check", check);
                     let measurement = performance.now();
                     let old = parseInt(localStorage.getItem("oldVal")) || 0;
-                    localStorage.setItem(check, 1);
                     if (form) {
                         form.submit();
                         console.log(search);
+                        let delta = Math.round(measurement - old);
+                        str += delta + ',' + search + "\n"; // innehållet för str
+                        localStorage.setItem("stockdata", str);
                     } else {
                         console.error('Search did not work');
                     }
 
-                }, ); // Delay
+                }, 100); // Delay
 
         }else{
             return;
@@ -82,6 +88,7 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
              link.setAttribute("download", "measurement_aktiedata.csv");
              document.body.appendChild(link);
  
+             setTimeout(function(){
              // Laddar ner
              link.click();
  
@@ -90,6 +97,10 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
              URL.revokeObjectURL(url);
 
              localStorage.setItem(localCounter, 0);
+             //localStorage.removeItem(counter);
+             }, 300 );
+        }else{
+            console.error("csv kunde inte laddas ner");
         }
     });
 })();
