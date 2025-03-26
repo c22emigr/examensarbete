@@ -39,13 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     </div>
     
     <div>
-        <form method="POST" class="centrera">
+        <form method="POST" class="centrera" id="searchform">
             <div>
                 <h2>Browse stocks</h2>
 
-                <div class="form" id="searchform">
+                <div class="form">
                     <input type="text" name="name" id="stocksearch" placeholder="Stock Search">
-                    <button type="submit" class="" id="stocksearchbutton" onclick="">Search</button>
+                    <button type="submit" class="" id="stocksearchbutton">Search</button>
                 </div>
             </div>
         </form>

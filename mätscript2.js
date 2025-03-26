@@ -22,32 +22,36 @@ const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "
 
     window.addEventListener('load', function() {
         let counter = parseInt(localStorage.getItem("counter")) || 0;
+        console.log(counter);
 
         if(counter < iterations) {
+            console.log("banan");
             counter++;
             localStorage.setItem("counter", counter); // Counter-värde sparas till localstorage
 
-            for (let i = 0; i < noun.length; i++){
-                let search = noun[i];
-
+                let search = noun[counter - 1];
                 let searchField = document.getElementById('stocksearch');
-                if(searchField){
-                    searchField.value = search;
-
-                    localStorage.setItem("search", search); // Spara sökterm
+                console.log("stocksearch");
+                if (searchField) {
+                    searchField.value = search; // Sökterm
+                    localStorage.setItem("search", search); // Spara sökterm i local storage
                 }
 
-                setTimeout(function(){
+                setTimeout(function() {
                     let form = document.getElementById("searchform");
                     let measurement = performance.now();
                     let old = parseInt(localStorage.getItem("oldVal")) || 0;
                     if (form) {
                         form.submit();
+                        console.log(search);
                     } else {
-                        console.error('Form not submitted');
+                        console.error('Search did not work');
                     }
-                });
-            }
+
+                }, 500); // Delay
+
+        }else{
+            return;
         }
     });
 })();

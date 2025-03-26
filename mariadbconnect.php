@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     </div>
     
     <div>
-        <form method="POST" class="centrera">
+        <form method="POST" class="centrera" id="searchform">
             <div>
                 <h2>Browse stocks</h2>
 
