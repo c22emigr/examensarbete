@@ -22,8 +22,10 @@ df['close'] = df['close'].apply(clean_close_column)
 data = df["stock_name"].unique()
 
 # Graf för varje aktie
-for row in data:
-    stock_data = df[]
+for stock_name in data:
+    stock_data = df[df['stock_name'] == stock_name]
+    plt.plot(stock_data['datetime'], stock_data['close'])
+
     plt.plot(stock_data)
     plt.xlabel('Date')
     plt.ylabel('Close')
