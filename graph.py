@@ -3,9 +3,12 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
+low_memory = False
 # Hämta data
 file_path = r"C:\Users\emilg\Downloads\aktiedata.csv"
 df = pd.read_csv(file_path)
+
+outputDir = "aktieGrafer" # Outputmapp  
 
 # Ta bort .00 decimaler
 def clean_close_column(value):
@@ -25,19 +28,19 @@ data = df["stock_name"].unique()
 # Graf för varje aktie
 for stock_name in data:
     plt.figure(figsize=(10, 10)) # Storlek på grafen
-    plt.grid(True)
-    plt.tight_layout()
+    plt.grid(False)
+    plt.tight_layout() # Kompakt storlek
 
-    stock_data = df[df['stock_name'] == stock_name]
-    plt.plot(stock_data['datetime'], stock_data['close'])
+    stock_data = df[df['stock_name'] == stock_name] # Data från stock_name
+    plt.plot(stock_data['datetime'], stock_data['close'], marker='o', linestyle='-', color='b', label='Close') # Datetime och close skrivs ut
 
-    print(stock_data['close'])
-
+    # Titlar
     plt.xlabel('Date')
     plt.ylabel('Close')
     plt.title('Close price development for {stock_name}')   
 
 
-
-print(stock_data) 
-
+    # Spara i outputDir (PNG)
+    plotPath = os.path.join(outputDir, f'{stock_name.replace(" ", "_").replace(",", "")}.png')
+    plt.savefig(plotPath)
+    plt.close()
