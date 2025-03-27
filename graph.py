@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 # Hämta data
 file_path = r"C:\Users\emilg\Downloads\aktiedata.csv"
@@ -23,14 +24,20 @@ data = df["stock_name"].unique()
 
 # Graf för varje aktie
 for stock_name in data:
+    plt.figure(figsize=(10, 10)) # Storlek på grafen
+    plt.grid(True)
+    plt.tight_layout()
+
     stock_data = df[df['stock_name'] == stock_name]
     plt.plot(stock_data['datetime'], stock_data['close'])
 
-    plt.plot(stock_data)
+    print(stock_data['close'])
+
     plt.xlabel('Date')
     plt.ylabel('Close')
     plt.title('Close price development for {stock_name}')   
 
 
-print(data) 
+
+print(stock_data) 
 
