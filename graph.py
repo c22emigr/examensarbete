@@ -27,17 +27,17 @@ data = df["stock_name"].unique()
 
 # Graf för varje aktie
 for stock_name in data:
-    plt.figure(figsize=(10, 10)) # Storlek på grafen
+    plt.figure(figsize=(13, 10)) # Storlek på grafen
     plt.grid(False)
     plt.tight_layout() # Kompakt storlek
 
     stock_data = df[df['stock_name'] == stock_name] # Data från stock_name
-    plt.plot(stock_data['datetime'], stock_data['close'], marker='o', linestyle='-', color='b', label='Close') # Datetime och close skrivs ut
+    plt.plot(stock_data['datetime'], stock_data['close'], linestyle='-', color='#50f396', label='Close') # Datetime och close skrivs ut
 
     # Titlar
     plt.xlabel('Date')
     plt.ylabel('Close')
-    plt.title('Close price development for {stock_name}')   
+    plt.title(f'Close price development for {stock_name}')   
 
 
     # Spara i outputDir (PNG)
