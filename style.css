@@ -25,3 +25,9 @@ html {
 th, td {
     padding-left: 25px;
 }
+
+.pricehistory {
+    width: 1000px;
+    height: 600px;
+    margin-bottom: 25px;
+}

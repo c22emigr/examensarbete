@@ -4,15 +4,40 @@ require '../vendor/autoload.php';
 $client = new MongoDB\Client("mongodb://localhost:27017");
 $collection = $client->examensarbete->aktier;
 
+$bucket = $client->examensarbete->selectGridFsBucket();
+
 $documents = []; // Tom array som sökning insertas i
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     $search = $_POST['name'];
 
+    $image_search = str_replace(' ', '_', $search) . '.png'; // Bildfiler har _ istället för mellanrum
+
     // Sökning. regex och $options för att göra case insensitive och inte exakt
-    $documents = $collection->find([
+    $cursor = $collection->find([
         'stock_name' => ['$regex' => $search, '$options' => 'i']
     ]);
+
+    // För varje aktie ska även respektive bild hämtas
+    foreach ($cursor as $document) {
+        try {
+            $image_file = $bucket->findOne(['filename' => $image_search]);
+
+            if ($image_file !== null) {
+                $image_stream = $bucket->openDownloadStream($image_file['_id']);
+                $image_data = stream_get_contents($image_stream);
+
+                if ($image_data) {
+                    $document['image_data'] = 'data:image/png;base64,' . base64_encode($image_data);
+                }
+            }
+        }  catch (MongoDB\GridFS\Exception\FileNotFoundException $e) {
+            // Bild finns inte, inget behöver göras
+        }
+        $documents[] = $document;
+    }
+
+
 }
 
 ?>
@@ -51,6 +76,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
         </form>
     </div>
 
+    <?php if (!empty($documents) && isset($documents[0]['image_data'])): ?>
+            <div class="centrera">
+                <img src="<?php echo $documents[0]['image_data']; ?>" class="pricehistory" />
+            </div>
+    <?php endif; ?>  
+
     <div class="centrera">
         <table>
         <thead>
@@ -64,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
                 <th>Volume</th>
                 <th>Value</th>
             </tr>
-        </thead>
+        </thead>   
                 <?php foreach ($documents as $doc): ?>
                     <tr class="pad">
                         <td><?php echo $doc['stock_name']; ?></td>
