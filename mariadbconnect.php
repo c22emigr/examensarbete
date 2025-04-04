@@ -9,13 +9,27 @@ die(" failed".$conn->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
-    $search = "%" . $_POST['name'] . "%"; // Wildcard search
+    $raw_search = $_POST['name']; // Wildcard search
+    $search = "%" . $raw_search . "%";
+    $image_search = str_replace(' ', '_', $raw_search) . '.png'; // Bildfiler har _ istället för mellanrum
 
     $stmt = $conn->prepare("SELECT * FROM aktier WHERE stock_name LIKE ?");
     $stmt->bind_param("s", $search);
     $stmt->execute();
 
     $data = $stmt->get_result();
+
+    $image_stmt = $conn->prepare("SELECT image_data FROM bilder WHERE filename = ?");
+    $image_stmt->bind_param("s", $image_search);
+    $image_stmt->execute();
+    $image_result = $image_stmt->get_result();
+
+    $image_base64 = null;
+
+    if ($image_row = $image_result->fetch_assoc()) {
+        $image_data = $image_row['image_data'];
+        $image_base64 = 'data:image/png;base64,' . base64_encode($image_data); 
+    }
 }
 ?>
 
@@ -39,6 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     <div class="centrera">
         <h1>Invest0iQ</h1>
     </div>
+
+    <?php if (!empty($image_base64)): ?>
+            <div class="centrera">
+                <img src="<?php echo $image_base64; ?>" class="pricehistory" />
+            </div>
+    <?php endif; ?>  
     
     <div>
         <form method="POST" class="centrera" id="searchform">
@@ -64,7 +84,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
                 <th>Low</th>
                 <th>Close</th>
                 <th>Volume</th>
-                <th>Value</th>
             </tr>
         </thead>
             <?php if (isset($data)): ?>
