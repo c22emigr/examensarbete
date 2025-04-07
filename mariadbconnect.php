@@ -52,13 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
 
     <div class="centrera">
         <h1>Invest0iQ</h1>
-    </div>
-
-    <?php if (!empty($image_base64)): ?>
-            <div class="centrera">
-                <img src="<?php echo $image_base64; ?>" class="pricehistory" />
-            </div>
-    <?php endif; ?>  
+    </div> 
     
     <div>
         <form method="POST" class="centrera" id="searchform">
@@ -72,6 +66,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
             </div>
         </form>
     </div>
+
+    <?php if (!empty($image_base64)): ?>
+            <div class="centrera">
+                <img src="<?php echo $image_base64; ?>" class="pricehistory" />
+            </div>
+    <?php endif; ?> 
 
     <div class="centrera">
         <table>
