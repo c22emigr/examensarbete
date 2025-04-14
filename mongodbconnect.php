@@ -2,7 +2,7 @@
 require '../vendor/autoload.php';
 
 $client = new MongoDB\Client("mongodb://localhost:27017");
-$collection = $client->examensarbete->aktier;
+$collection = $client->examensarbete->aktier25;
 
 $bucket = $client->examensarbete->selectGridFsBucket();
 
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
                 }
             }
         }  catch (MongoDB\GridFS\Exception\FileNotFoundException $e) {
-            // Bild finns inte, inget behöver göras
+            // Error om bild inte finns
         }
         $documents[] = $document;
     }
