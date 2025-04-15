@@ -37,39 +37,17 @@ let iterations = 10;
 (function() {
     'use strict';
 
+    window.addEventListener("load", () => {
+    let counter = parseInt(localStorage.getItem("counter")) || 0;
     let ordning = JSON.parse(localStorage.getItem("ordning") || null);
-
     if (!ordning) {
         ordning = shuffleArray(noun, seed);
         localStorage.setItem("ordning", JSON.stringify(ordning));
     }
 
-    let check = 0;
     let stockdata = localStorage.getItem("stockdata") || "";
-
-    const oldVal = parseFloat(localStorage.setItem("oldVal"));
-    const previousSearch = localStorage.getItem("search");
-
-
-    if (oldVal && previousSearch) {
-        const img = document.querySelector("img.pricehistory");
-        if (img) {
-            img.onload = () => {
-                const measurement = performance.now();
-                const delta = Math.round(measurement - oldVal);
-
-                stockdata += delta + ',' + previousSearch + "\n";
-                localStorage.setItem("stockdata", stockdata);
-
-                localStorage.setItem("counter", counter + 1);
-                localStorage.removeItem("oldVal");
-                localStorage.removeItem("search");
-
-                setTimeout(() => location.reload(), 150);
-            };
-        }
-        return;
-    }
+    let oldVal = parseFloat(localStorage.getItem("oldVal"));
+    let previousSearch = localStorage.getItem("search");
 
     if (counter >= iterations) {
         const blob = new Blob([stockdata], { type: "text/csv;charset=utf-8;" });
@@ -79,11 +57,45 @@ let iterations = 10;
         link.setAttribute("href", url);
         link.setAttribute("download", "measurement_aktiedata.csv");
         document.body.appendChild(link);
-        setTimeout(() => {
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        }, 300);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url); 
+        return;
+    }
+
+
+    if (oldVal && previousSearch) {
+        const img = document.querySelector("img.pricehistory");
+        let handled = false;
+
+        function finishMeasurement() {
+            if (handled) return;
+            handled = true;
+
+            const measurement = performance.now();
+            const delta = Math.round(measurement - oldVal);
+            stockdata += `${delta},${previousSearch}`;
+
+            localStorage.setItem("stockdata", stockdata);
+            localStorage.setItem("counter", counter + 1);
+            localStorage.removeItem("oldVal");
+            localStorage.removeItem("search");
+
+            console.log(`Mätning: ${previousSearch} = ${oldVal}`);
+            setTimeout(() => location.reload(), 100);
+        }
+
+        if (img) {
+            if (img.complete) {
+                finishMeasurement("(img.complete)");
+            } else {
+                img.onload = () => finishMeasurement("(img.onload)");
+            }
+            setTimeout(() => finishMeasurement("(timeout)"), imageTimeout);
+        } else {
+            console.warn("Ingen bild hittad");
+            finishMeasurement();
+        }
         return;
     }
 
@@ -97,4 +109,5 @@ let iterations = 10;
         localStorage.setItem("oldVal", performance.now());
         form.submit();
     }
+});
 })();

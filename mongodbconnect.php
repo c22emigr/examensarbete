@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
 
     <?php if (!empty($documents) && isset($documents[0]['image_data'])): ?>
             <div class="centrera">
-                <img src="<?php echo $documents[0]['image_data']; ?>" class="pricehistory" />
+                <img id="stock-image" src="<?php echo $documents[0]['image_data']; ?>" class="pricehistory" />
             </div>
     <?php endif; ?>  
 
