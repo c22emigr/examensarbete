@@ -73,7 +73,7 @@ const iterations = 10;
             localStorage.removeItem("oldVal");
             localStorage.removeItem("search");
 
-            console.log(`✅ Mätning för "${previousSearch}": ${delta} ms`);
+            console.log(`Mätning för "${previousSearch}": ${delta} ms`);
             setTimeout(() => location.reload(), 200);
             return;
         }
