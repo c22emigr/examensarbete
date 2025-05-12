@@ -39,8 +39,9 @@ const iterations = 10;
 
     window.addEventListener("load", () => {
         let counter = parseInt(localStorage.getItem("counter")) || 0;
-        let ordning = JSON.parse(localStorage.getItem("ordning") || null);
-        if (!ordning) {
+        let ordning = JSON.parse(localStorage.getItem("ordning") || "null");
+        
+        if (!ordning || ordning.length !== noun.length) { // Ny ordning om den inte finns.
             ordning = shuffleArray(noun, seed);
             localStorage.setItem("ordning", JSON.stringify(ordning));
         }
@@ -60,6 +61,12 @@ const iterations = 10;
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
+
+            // Efter mätning clean up
+            localStorage.removeItem("stockdata");
+            localStorage.removeItem("counter");
+            localStorage.removeItem("ordning");
+
             return;
         }
 
