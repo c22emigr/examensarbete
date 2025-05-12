@@ -32,7 +32,7 @@ function shuffleArray(array, seed) {
 // Lista över sökord
 const noun = ["Agilent Technologies, Inc. (A)", "American Airlines Group Inc", "Apple Inc", "AbbVie Inc", "Airbnb Inc", "Abbott Laboratories", "Arch Capital Group Ltd", "Accenture Plc", "Adobe Inc", "Analog Devices Inc"];
 const seed = 22222;
-const iterations = 10;
+const iterations = 1036;
 
 (function () {
     'use strict';
@@ -81,11 +81,11 @@ const iterations = 10;
             localStorage.removeItem("search");
 
             console.log(`Mätning för "${previousSearch}": ${delta} ms`);
-            setTimeout(() => location.reload(), 200);
+            setTimeout(() => location.reload(), 50);
             return;
         }
 
-        const search = ordning[counter];
+        const search = ordning[counter % ordning.length];
         const searchField = document.getElementById('stocksearch');
         const form = document.getElementById('searchform');
 
