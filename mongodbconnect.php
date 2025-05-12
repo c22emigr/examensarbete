@@ -13,10 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
 
     $image_search = str_replace(' ', '_', $search) . '.png'; // Bildfiler har _ istället för mellanrum
 
-    // Sökning. regex och $options för att göra case insensitive och inte exakt
-    $cursor = $collection->find([
-        'stock_name' => ['$regex' => $search, '$options' => 'i']
-    ]);
+    // Sökning. regex och $options för att göra case insensitive och inte exakt. La till datetime ordning
+    $cursor = $collection->find(
+        ['stock_name' => ['$regex' => $search, '$options' => 'i']],
+        ['sort' => ['datetime' => 1]] // 1 = stigande, -1 = fallande
+    );
 
     // För varje aktie ska även respektive bild hämtas
     foreach ($cursor as $document) {
@@ -98,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
                 <?php foreach ($documents as $doc): ?>
                     <tr class="pad">
                         <td><?php echo $doc['stock_name']; ?></td>
-                        <td><?php echo $doc['datetime']; ?></td>
+                        <td><?php echo date('Y-m-d', $doc['datetime']->toDateTime()->getTimestamp()); ?></td>
                         <td><?php echo $doc['open']; ?></td>
                         <td><?php echo $doc['high']; ?></td>
                         <td><?php echo $doc['low']; ?></td>
