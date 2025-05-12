@@ -2,6 +2,11 @@ import pandas as pd
 
 df = pd.read_csv("dataMängder/aktiedata.csv")
 
+# Ta bort .00 i slutet av strängar i open, high, low, close (men bara om det finns)
+for col in ["open", "high", "low", "close"]:
+    df[col] = df[col].apply(lambda x: str(x).replace('.00', '') if str(x).endswith('.00') else x)
+    df[col] = df[col].astype(float)  # Till float
+
 row_counts = df.groupby("stock_name").size().reset_index(name="row_count")
 
 # 900 = lite, 900-1300 = mellan, över 1300 = mycket

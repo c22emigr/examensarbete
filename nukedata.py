@@ -23,7 +23,7 @@ df['open'] = df['open'].apply(clean_close_column)
 
 # Hämta alla unika aktienamn
 data = df['stock_name'].unique()
-data = df.groupby('stock_name').apply(lambda x: x.sample(frac=0.75, random_state=69)).reset_index(drop=True)
+data = df.groupby('stock_name').apply(lambda x: x.sample(frac=1, random_state=69)).reset_index(drop=True)
 
-output_file_path = os.path.join(outputDir, '75procentdata.csv')
+output_file_path = os.path.join(outputDir, '100procentdata.csv')
 data.to_csv(output_file_path, index = False)

@@ -2,7 +2,7 @@
 require '../vendor/autoload.php';
 
 $client = new MongoDB\Client("mongodb://localhost:27017");
-$collection = $client->examensarbete->aktier25;
+$collection = $client->examensarbete->aktier100;
 
 $bucket = $client->examensarbete->selectGridFsBucket();
 
