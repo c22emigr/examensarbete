@@ -10,10 +10,10 @@ die(" failed".$conn->connect_error);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     $raw_search = $_POST['name']; // Wildcard search
-    $search = $raw_search;
+    $search = "%" . $raw_search . "%";
     $image_search = str_replace(' ', '_', $raw_search) . '.png'; // Bildfiler har _ istället för mellanrum
 
-    $stmt = $conn->prepare("SELECT * FROM aktier25 WHERE stock_name = ? ORDER BY datetime ASC"); // Ordning samma som med MongoDB
+    $stmt = $conn->prepare("SELECT * FROM aktier25 WHERE stock_name LIKE ? ORDER BY datetime ASC"); // Ordning samma som med MongoDB
     $stmt->bind_param("s", $search);
     $stmt->execute();
 
