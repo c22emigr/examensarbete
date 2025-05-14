@@ -9,7 +9,7 @@ die(" failed".$conn->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
-    $raw_search = $_POST['name']; // Wildcard search
+    $raw_search = $_POST['name']; 
     $search = $raw_search;
     $image_search = str_replace(' ', '_', $raw_search) . '.png'; // Bildfiler har _ istället för mellanrum
 

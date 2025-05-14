@@ -2,7 +2,7 @@
 require '../vendor/autoload.php';
 
 $client = new MongoDB\Client("mongodb://localhost:27017");
-$collection = $client->examensarbete->aktier100;
+$collection = $client->examensarbete->aktier25;
 
 $bucket = $client->examensarbete->selectGridFsBucket();
 
@@ -13,9 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
 
     $image_search = str_replace(' ', '_', $search) . '.png'; // Bildfiler har _ istället för mellanrum
 
-    // Sökning. regex och $options för att göra case insensitive och inte exakt. La till datetime ordning
+    // Sökning. La till datetime ordning
     $cursor = $collection->find(
-        ['stock_name' => ['$regex' => $search, '$options' => 'i']],
+        ['stock_name' => $search],
         ['sort' => ['datetime' => 1]] // 1 = stigande, -1 = fallande
     );
 
