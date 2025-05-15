@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     $search = $raw_search;
     $image_search = str_replace(' ', '_', $raw_search) . '.png'; // Bildfiler har _ istället för mellanrum
 
-    $stmt = $conn->prepare("SELECT * FROM aktier75 WHERE stock_name = ? ORDER BY datetime ASC"); // Ordning samma som med MongoDB
+    $stmt = $conn->prepare("SELECT * FROM aktierliten WHERE stock_name = ? ORDER BY datetime ASC"); // Ordning samma som med MongoDB
     $stmt->bind_param("s", $search);
     $stmt->execute();
 
