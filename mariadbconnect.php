@@ -19,17 +19,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
 
     $data = $stmt->get_result();
 
-    $image_stmt = $conn->prepare("SELECT image_data FROM bilder WHERE filename = ?");
-    $image_stmt->bind_param("s", $image_search);
-    $image_stmt->execute();
-    $image_result = $image_stmt->get_result();
+    // $image_stmt = $conn->prepare("SELECT image_data FROM bilder WHERE filename = ?");
+    // $image_stmt->bind_param("s", $image_search);
+    // $image_stmt->execute();
+    // $image_result = $image_stmt->get_result();
 
-    $image_base64 = null;
+    // $image_base64 = null;
 
-    if ($image_row = $image_result->fetch_assoc()) {
-        $image_data = $image_row['image_data'];
-        $image_base64 = 'data:image/png;base64,' . base64_encode($image_data); 
-    }
+    // if ($image_row = $image_result->fetch_assoc()) {
+    //     $image_data = $image_row['image_data'];
+    //     $image_base64 = 'data:image/png;base64,' . base64_encode($image_data); 
+    // }
 }
 ?>
 
