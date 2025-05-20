@@ -11,7 +11,12 @@ $documents = []; // Tom array som sökning insertas i
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
     $search = $_POST['name'];
 
-    $image_search = str_replace(' ', '_', $search) . '.png'; // Bildfiler har _ istället för mellanrum
+    $image_search = str_replace(' ', '_', $search);
+    $image_search = rtrim($image_search, '.');
+    $image_search = str_replace(',', '', $image_search);
+    $image_search .= '.png';
+
+    error_log("Filename generated: " . $image_search); // <--- Logga till PHP error log
 
     // Sökning. La till datetime ordning
     $cursor = $collection->find(
