@@ -1,6 +1,6 @@
 import os
 from pymongo import MongoClient
-from bson import Binary
+from bson.binary import Binary 
 
 # Anslut till MongoDB
 client = MongoClient("mongodb://localhost:27017/")
