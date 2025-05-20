@@ -19,24 +19,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name'])) {
         ['sort' => ['datetime' => 1]] // 1 = stigande, -1 = fallande
     );
 
-    // För varje aktie ska även respektive bild hämtas
+    $imageCollection = $client->examensarbete->bilder;
+
     foreach ($cursor as $document) {
-        // try {
-        //     $image_file = $bucket->findOne(['filename' => $image_search]);
+        // Hämta bild från vanlig MongoDB-kollektion, inte GridFS
+        $imageDoc = $imageCollection->findOne(['filename' => $image_search]);
 
-        //     if ($image_file !== null) {
-        //         $image_stream = $bucket->openDownloadStream($image_file['_id']);
-        //         $image_data = stream_get_contents($image_stream);
+        if ($imageDoc && isset($imageDoc['image'])) {
+            $document['image_data'] = 'data:image/png;base64,' . base64_encode($imageDoc['image']->getData());
+        }
 
-        //         if ($image_data) {
-        //             $document['image_data'] = 'data:image/png;base64,' . base64_encode($image_data);
-        //         }
-        //     }
-        // }  catch (MongoDB\GridFS\Exception\FileNotFoundException $e) {
-        //     // Error om bild inte finns
-        // }
         $documents[] = $document;
     }
+
+
+    // För varje aktie ska även respektive bild hämtas
+    // foreach ($cursor as $document) {
+    //     // try {
+    //     //     $image_file = $bucket->findOne(['filename' => $image_search]);
+
+    //     //     if ($image_file !== null) {
+    //     //         $image_stream = $bucket->openDownloadStream($image_file['_id']);
+    //     //         $image_data = stream_get_contents($image_stream);
+
+    //     //         if ($image_data) {
+    //     //             $document['image_data'] = 'data:image/png;base64,' . base64_encode($image_data);
+    //     //         }
+    //     //     }
+    //     // }  catch (MongoDB\GridFS\Exception\FileNotFoundException $e) {
+    //     //     // Error om bild inte finns
+    //     // }
+    //     $documents[] = $document;
+    // }
 
 
 }
